@@ -228,34 +228,79 @@ if (hamburger && mobileMenu) {
 (function initMemeGallery(){
   const gallery = document.getElementById('memeGallery');
   if (!gallery) return;
+  // Clear existing nodes to avoid duplicates on re-init
+  gallery.innerHTML = '';
   // Try to fetch manifest of images for static hosting. If it fails, fall back to defaults.
-  const fallback = ['zillamascot.png','zillaVSbears.png','zillameme1.png'];
+  const fallback = ['zillamascot.png','zillaVSbears.png','zillameme1.png','zillameme2.png','zillameme3.png','zillameme4.png','zillameme5.png','zillameme6.png','zillameme7.png'];
   fetch('public/memes/manifest.json')
     .then(r => r.ok ? r.json() : fallback)
     .catch(() => fallback)
     .then((files) => {
       const sources = Array.isArray(files) ? files : fallback;
-      sources.forEach((name) => {
-        const src = `public/memes/${name}`;
+      const uniqueSources = Array.from(new Set((sources || []).filter(Boolean)));
+      const placeholder = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"/>';
+
+      // Helper to set the best available source
+      function setSource(img, pngSrc, webpSrc) {
+        fetch(webpSrc, { method: 'HEAD' })
+          .then(r => { img.src = r.ok ? webpSrc : pngSrc; })
+          .catch(() => { img.src = pngSrc; });
+      }
+
+      // Lazy insert with IntersectionObserver to avoid loading heavy images until visible
+      const io = 'IntersectionObserver' in window ? new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const img = entry.target;
+          const png = img.getAttribute('data-png');
+          const webp = img.getAttribute('data-webp');
+          setSource(img, png, webp);
+          io.unobserve(img);
+        });
+      }, { root: null, rootMargin: '200px 0px', threshold: 0.01 }) : null;
+
+      const eagerCount = Math.min(4, uniqueSources.length);
+      uniqueSources.forEach((name, index) => {
+        const pngSrc = `public/memes/${name}`;
+        const webpSrc = pngSrc.replace(/\.(png|jpg|jpeg)$/i, '.webp');
         const item = document.createElement('div');
         item.className = 'gallery__item';
         const img = document.createElement('img');
-        img.src = src;
-        img.loading = 'lazy';
+        img.src = placeholder;
+        img.setAttribute('fetchpriority', index < eagerCount ? 'high' : 'low');
+        img.loading = index < eagerCount ? 'eager' : 'lazy';
         img.decoding = 'async';
+        img.draggable = false;
         img.alt = 'ZILLA meme';
+        img.setAttribute('data-png', pngSrc);
+        img.setAttribute('data-webp', webpSrc);
         item.appendChild(img);
         gallery.appendChild(item);
+        if (io && index >= eagerCount) {
+          io.observe(img);
+        } else {
+          setSource(img, pngSrc, webpSrc);
+        }
       });
+
+      // After population, compute step from first card width + gap
+      const prev = document.getElementById('galleryPrev');
+      const next = document.getElementById('galleryNext');
+      const gapStr = getComputedStyle(gallery).columnGap || getComputedStyle(gallery).gap || '16px';
+      let step = 260;
+      function computeStep(){
+        const first = gallery.querySelector('.gallery__item');
+        const gap = parseInt(gapStr, 10) || 16;
+        step = first ? first.getBoundingClientRect().width + gap : 260;
+      }
+      computeStep();
+      window.addEventListener('resize', computeStep);
+      function scrollByStep(dir){
+        gallery.scrollBy({ left: dir * step, behavior: 'smooth' });
+      }
+      prev && prev.addEventListener('click', () => scrollByStep(-1));
+      next && next.addEventListener('click', () => scrollByStep(1));
     });
-  const prev = document.getElementById('galleryPrev');
-  const next = document.getElementById('galleryNext');
-  const step = 260; // px per click
-  function scrollByStep(dir){
-    gallery.scrollBy({ left: dir * step, behavior: 'smooth' });
-  }
-  prev && prev.addEventListener('click', () => scrollByStep(-1));
-  next && next.addEventListener('click', () => scrollByStep(1));
 })();
 
 
