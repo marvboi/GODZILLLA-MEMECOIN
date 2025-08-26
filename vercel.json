@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "web/**/*", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "^/$", "dest": "/web/index.html" },
+    { "src": "^/generator/?$", "dest": "/web/generator/index.html" },
+    { "src": "^/public/(.*)$", "dest": "/web/public/$1" },
+    { "src": "/(.*)", "dest": "/web/$1" }
+  ]
+}
+
+
