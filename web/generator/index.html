@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GODZILLA • Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Chewy&family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <header class="nav">
+      <div class="nav__left">
+        <div class="logo">
+          <span class="logo__badge">Z</span>
+          <span class="logo__text">GODZILLA</span>
+        </div>
+      </div>
+      <nav class="nav__links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#guide">Guide</a>
+        <a href="#">Generator</a>
+      </nav>
+      <div class="nav__cta">
+        <a class="btn btn--pill btn--green" href="../index.html#guide">Buy $ZILLA</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="section section--light">
+        <div class="container">
+          <h1 class="display-outline">Creators' <span class="accent">Playground</span></h1>
+          <p class="lead">Choose a tool to begin.</p>
+
+          <div class="grid-two">
+            <button class="placeholder-card" id="pickBanner" type="button">Banner Maker</button>
+            <button class="placeholder-card" id="pickZilla" type="button">Build Your Zilla</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="studioSection" hidden>
+        <div class="container">
+          <div class="generator-panels">
+            <div class="panel" id="panelBanner" hidden>
+              <h2 class="display-outline">Banner <span class="accent">Maker</span></h2>
+              <div class="studio">
+                <canvas id="bannerCanvas" width="1200" height="400"></canvas>
+                <div class="controls">
+                  <div class="control">
+                    <label>Background</label>
+                    <input type="color" id="bgColor" value="#26b4ff" />
+                  </div>
+                  <div class="control">
+                    <label>Headline</label>
+                    <input type="text" id="headlineText" placeholder="GODZILLA #WEIRD" />
+                  </div>
+                  <div class="control">
+                    <label>Add Image</label>
+                    <input type="file" id="bannerImage" accept="image/*" />
+                  </div>
+                  <button class="btn btn--pill btn--green" id="exportBanner">Export PNG</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel" id="panelZilla" hidden>
+              <h2 class="display-outline">Build your <span class="accent">Zilla</span></h2>
+              <div class="studio">
+                <div class="preview">
+                  <canvas id="zillaCanvas" width="600" height="600"></canvas>
+                </div>
+                <div class="controls">
+                  <div class="control"><label>Base Layer</label><input type="file" data-layer="0" accept="image/*" /></div>
+                  <div class="control"><label>Eyes</label><input type="file" data-layer="1" accept="image/*" /></div>
+                  <div class="control"><label>Mouth</label><input type="file" data-layer="2" accept="image/*" /></div>
+                  <div class="control"><label>Accessory</label><input type="file" data-layer="3" accept="image/*" /></div>
+                  <button class="btn btn--pill btn--green" id="exportZilla">Export PNG</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="ticker" aria-hidden="true">
+          <div class="ticker__track">
+            <span>$ZILLA TO TAKE OVER CARDANO <img class="ticker__logo" alt="Cardano" src="../public/cardano.png" /></span>
+            <span>$ZILLA TO TAKE OVER CARDANO <img class="ticker__logo" alt="Cardano" src="../public/cardano.png" /></span>
+            <span>$ZILLA TO TAKE OVER CARDANO <img class="ticker__logo" alt="Cardano" src="../public/cardano.png" /></span>
+            <span>$ZILLA TO TAKE OVER CARDANO <img class="ticker__logo" alt="Cardano" src="../public/cardano.png" /></span>
+            <span>$ZILLA TO TAKE OVER CARDANO <img class="ticker__logo" alt="Cardano" src="../public/cardano.png" /></span>
+          </div>
+        </div>
+        <div class="social-buttons">
+          <a class="btn btn--pill btn--outline" href="#" target="_blank" rel="noreferrer">Discord (soon)</a>
+          <a class="btn btn--pill btn--outline" href="#" target="_blank" rel="noreferrer">Twitter (soon)</a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="../script.js"></script>
+  </body>
+  </html>
+
+

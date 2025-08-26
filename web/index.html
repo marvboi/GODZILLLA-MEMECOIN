@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GODZILLA • Cardano Memecoin</title>
+    <meta name="description" content="GODZILLA on Cardano. Buy guide, banner maker, and Zilla builder." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Chewy&family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="nav">
+      <div class="nav__left">
+        <div class="logo">
+          <span class="logo__badge">Z</span>
+          <span class="logo__text">GODZILLA</span>
+        </div>
+      </div>
+      <nav class="nav__links">
+        <a href="#guide">Guide</a>
+        <a href="#nomics">Zilla-nomics</a>
+        <a href="generator/index.html">Generator</a>
+      </nav>
+      <div class="nav__cta">
+        <a class="btn btn--pill btn--green" href="#guide">Buy $ZILLA</a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <div class="mobile-menu" id="mobileMenu">
+      <div class="menu-links">
+        <a href="#guide">Guide</a>
+        <a href="#nomics">Zilla-nomics</a>
+        <a href="generator/index.html">Generator</a>
+        <a class="btn btn--pill btn--green" href="#guide" style="width:max-content;">Buy $ZILLA</a>
+      </div>
+    </div>
+
+    <main>
+      <section id="hero" class="hero">
+        <div class="hero__content">
+          <h1 class="display-outline">Unleash <span class="accent">GODZILLA</span> on Cardano</h1>
+          <p class="lead">Community-powered chaos. Memes, layers, banners, and bite-sized fun.</p>
+          <div class="hero__buttons">
+            <a class="btn btn--pill btn--green" href="#guide">Get $ZILLA</a>
+            <a class="btn btn--pill btn--outline" href="generator/index.html">Open Generator</a>
+          </div>
+        </div>
+        <div class="hero__art">
+          <!-- Placeholder for your skin art (Image 1). Replace src later. -->
+          <img id="skin-image" alt="GODZILLA mascot" src="" />
+        </div>
+      </section>
+
+      <section id="guide" class="section section--light">
+        <div class="container">
+          <h2 class="display-outline">How to buy <span class="accent">$ZILLA</span></h2>
+          <div class="steps">
+            <article class="step">
+              <h3>1. Get a Cardano wallet</h3>
+              <p>Install Lace, Eternl, Nami, or your favorite Cardano wallet and fund it with ADA.</p>
+            </article>
+            <article class="step">
+              <h3>2. Connect to a DEX</h3>
+              <p>Open a Cardano DEX (Minswap, Sundae, etc.), connect your wallet.</p>
+            </article>
+            <article class="step">
+              <h3>3. Swap ADA → $ZILLA</h3>
+              <p>Paste the official policy ID/asset fingerprint below, review, and swap.</p>
+            </article>
+          </div>
+          <div class="policy">
+            <label for="policyId">Policy ID (placeholder):</label>
+            <div class="policy__row">
+              <input id="policyId" type="text" value="COMING-SOON" readonly />
+              <button class="btn btn--pill btn--outline" id="copyPolicy">Copy</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      
+      <section id="nomics" class="section">
+        <div class="container">
+          <h2 class="display-outline">Zilla-<span class="accent">nomics</span></h2>
+          <div class="nomics">
+            <div class="nomics__chart">
+              <svg id="donutChart" viewBox="0 0 260 260" width="260" height="260" aria-label="Zilla-nomics chart">
+                <g transform="rotate(-90 130 130)"></g>
+              </svg>
+            </div>
+            <ul id="nomicsLegend" class="legend"></ul>
+          </div>
+          <div class="divider divider--full"></div>
+          <h3 class="display-outline" style="font-size:42px; margin-top:28px;">Meme <span class="accent">Gallery</span></h3>
+          <div class="gallery" id="memeGallery">
+            <div class="gallery__item"><img src="public/cardano.png" alt="placeholder meme" /></div>
+            <div class="gallery__item"><img src="public/cardano.png" alt="placeholder meme" /></div>
+            <div class="gallery__item"><img src="public/cardano.png" alt="placeholder meme" /></div>
+            <div class="gallery__item"><img src="public/cardano.png" alt="placeholder meme" /></div>
+          </div>
+        </div>
+      </section>
+      
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="ticker" aria-hidden="true">
+          <div class="ticker__track">
+            <span>$ZILLA TO TAKE OVER CARDANO <img class="ticker__logo" alt="Cardano" src="public/cardano.png" /></span>
+            <span>$ZILLA TO TAKE OVER CARDANO <img class="ticker__logo" alt="Cardano" src="public/cardano.png" /></span>
+            <span>$ZILLA TO TAKE OVER CARDANO <img class="ticker__logo" alt="Cardano" src="public/cardano.png" /></span>
+            <span>$ZILLA TO TAKE OVER CARDANO <img class="ticker__logo" alt="Cardano" src="public/cardano.png" /></span>
+            <span>$ZILLA TO TAKE OVER CARDANO <img class="ticker__logo" alt="Cardano" src="public/cardano.png" /></span>
+          </div>
+        </div>
+        <div class="social-buttons">
+          <a class="btn btn--pill btn--outline" href="#" target="_blank" rel="noreferrer">Discord (soon)</a>
+          <a class="btn btn--pill btn--outline" href="#" target="_blank" rel="noreferrer">Twitter (soon)</a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+  </html>
+
+
