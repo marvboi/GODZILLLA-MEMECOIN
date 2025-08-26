@@ -51,8 +51,7 @@
           </div>
         </div>
         <div class="hero__art">
-          <!-- Placeholder for your skin art (Image 1). Replace src later. -->
-          <img id="skin-image" alt="GODZILLA mascot" src="" />
+          <img id="skin-image" alt="GODZILLA mascot" src="public/memes/zillamascot.png" loading="eager" decoding="async" />
         </div>
       </section>
 
@@ -97,11 +96,10 @@
           </div>
           <div class="divider divider--full"></div>
           <h3 class="display-outline" style="font-size:42px; margin-top:28px;">Meme <span class="accent">Gallery</span></h3>
-          <div class="gallery" id="memeGallery">
-            <div class="gallery__item"><img src="public/cardano.png" alt="placeholder meme" /></div>
-            <div class="gallery__item"><img src="public/cardano.png" alt="placeholder meme" /></div>
-            <div class="gallery__item"><img src="public/cardano.png" alt="placeholder meme" /></div>
-            <div class="gallery__item"><img src="public/cardano.png" alt="placeholder meme" /></div>
+          <div class="gallery-wrap">
+            <button class="gallery-nav prev" id="galleryPrev" aria-label="Previous">‹</button>
+            <div class="gallery" id="memeGallery"></div>
+            <button class="gallery-nav next" id="galleryNext" aria-label="Next">›</button>
           </div>
         </div>
       </section>

@@ -224,19 +224,38 @@ if (hamburger && mobileMenu) {
   });
 }
 
-// Meme gallery simple shuffler (swaps images every few seconds)
-const gallery = document.getElementById('memeGallery');
-if (gallery) {
-  const imgs = Array.from(gallery.querySelectorAll('img'));
-  let idx = 0;
-  setInterval(() => {
-    if (imgs.length === 0) return;
-    idx = (idx + 1) % imgs.length;
-    // rotate sources among items
-    const firstSrc = imgs[0].src;
-    for (let i = 0; i < imgs.length - 1; i++) imgs[i].src = imgs[i + 1].src;
-    imgs[imgs.length - 1].src = firstSrc;
-  }, 3000);
-}
+// Meme gallery: load images from /web/public/memes and make horizontal carousel
+(function initMemeGallery(){
+  const gallery = document.getElementById('memeGallery');
+  if (!gallery) return;
+  // Try to fetch manifest of images for static hosting. If it fails, fall back to defaults.
+  const fallback = ['zillamascot.png','zillaVSbears.png','zillameme1.png'];
+  fetch('public/memes/manifest.json')
+    .then(r => r.ok ? r.json() : fallback)
+    .catch(() => fallback)
+    .then((files) => {
+      const sources = Array.isArray(files) ? files : fallback;
+      sources.forEach((name) => {
+        const src = `public/memes/${name}`;
+        const item = document.createElement('div');
+        item.className = 'gallery__item';
+        const img = document.createElement('img');
+        img.src = src;
+        img.loading = 'lazy';
+        img.decoding = 'async';
+        img.alt = 'ZILLA meme';
+        item.appendChild(img);
+        gallery.appendChild(item);
+      });
+    });
+  const prev = document.getElementById('galleryPrev');
+  const next = document.getElementById('galleryNext');
+  const step = 260; // px per click
+  function scrollByStep(dir){
+    gallery.scrollBy({ left: dir * step, behavior: 'smooth' });
+  }
+  prev && prev.addEventListener('click', () => scrollByStep(-1));
+  next && next.addEventListener('click', () => scrollByStep(1));
+})();
 
 
