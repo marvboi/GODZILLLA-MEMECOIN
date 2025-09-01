@@ -10,6 +10,25 @@ document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
   });
 });
 
+// Intercept Generator links on the home page to show "Coming soon"
+(function interceptGeneratorLinks(){
+  const toast = document.getElementById('toast');
+  function showToast(msg){
+    if (!toast) return;
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(() => toast.classList.remove('show'), 1800);
+  }
+  document.querySelectorAll('a[data-soon]')
+    .forEach((a) => {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        showToast('Generator: COMING SOON');
+      });
+    });
+})();
+
 // Copy Policy ID button
 const copyBtn = document.getElementById('copyPolicy');
 if (copyBtn) {
@@ -160,15 +179,14 @@ if (donut) {
   const ring = donut.querySelector('g');
   const legend = document.getElementById('nomicsLegend');
   const entries = [
-    { label: 'Public', value: 75, color: '#77a6f7' },
-    { label: 'Vested', value: 12, color: '#caa24c' },
-    { label: 'Reserves', value: 8, color: '#c27a55' },
-    { label: 'Burned', value: 3, color: '#cfcfcf' },
-    { label: 'Dev', value: 2, color: '#000000' },
+    { label: 'Public', value: 95, color: '#77a6f7' },
+    { label: 'Vested', value: 3, color: '#caa24c' },
+    { label: 'Team', value: 2, color: '#000000' },
   ];
   const total = entries.reduce((a, b) => a + b.value, 0);
   let acc = 0;
   const r = 100;
+  const strokeWidth = 40;
   const c = 2 * Math.PI * r;
   entries.forEach((e) => {
     const frac = e.value / total;
@@ -180,7 +198,7 @@ if (donut) {
     circle.setAttribute('r', String(r));
     circle.setAttribute('fill', 'none');
     circle.setAttribute('stroke', e.color);
-    circle.setAttribute('stroke-width', '40');
+    circle.setAttribute('stroke-width', String(strokeWidth));
     circle.setAttribute('stroke-dasharray', dash);
     circle.setAttribute('stroke-dashoffset', String(-acc * c));
     circle.setAttribute('pathLength', String(c));
@@ -199,12 +217,26 @@ if (donut) {
     }
   });
   // inner hole
+  const holeRadius = 60;
   const hole = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
   hole.setAttribute('cx', '130');
   hole.setAttribute('cy', '130');
-  hole.setAttribute('r', '60');
+  hole.setAttribute('r', String(holeRadius));
   hole.setAttribute('fill', '#fff');
   donut.appendChild(hole);
+
+  // Ensure center logo sits above the white hole
+  const donutLogo = document.getElementById('donutLogo');
+  if (donutLogo) {
+    const innerRadius = r - strokeWidth / 2; // inner edge of the donut ring
+    const size = innerRadius * 2 + 25; // +8px overfill per request
+    donutLogo.setAttribute('width', String(size));
+    donutLogo.setAttribute('height', String(size));
+    donutLogo.setAttribute('x', String(130 - size / 2));
+    donutLogo.setAttribute('y', String(130 - size / 2));
+    // Appending again moves it to the top of the stacking order
+    donut.appendChild(donutLogo);
+  }
 }
 
 // Mobile hamburger menu
@@ -231,7 +263,7 @@ if (hamburger && mobileMenu) {
   // Clear existing nodes to avoid duplicates on re-init
   gallery.innerHTML = '';
   // Try to fetch manifest of images for static hosting. If it fails, fall back to defaults.
-  const fallback = ['zillamascot.png','zillaVSbears.png','zillameme1.png','zillameme2.png','zillameme3.png','zillameme4.png','zillameme5.png','zillameme6.png','zillameme7.png'];
+  const fallback = ['zillaVSbears.png','zillameme1.png','zillameme2.png','zillameme3.png','zillameme4.png','zillameme5.png','zillameme6.png','zillameme7.png','aurazilla.png','fart.png'];
   fetch('public/memes/manifest.json')
     .then(r => r.ok ? r.json() : fallback)
     .catch(() => fallback)
@@ -242,9 +274,13 @@ if (hamburger && mobileMenu) {
 
       // Helper to set the best available source
       function setSource(img, pngSrc, webpSrc) {
-        fetch(webpSrc, { method: 'HEAD' })
-          .then(r => { img.src = r.ok ? webpSrc : pngSrc; })
-          .catch(() => { img.src = pngSrc; });
+        if (webpSrc) {
+          fetch(webpSrc, { method: 'HEAD' })
+            .then(r => { img.src = r.ok ? webpSrc : pngSrc; })
+            .catch(() => { img.src = pngSrc; });
+        } else {
+          img.src = pngSrc;
+        }
       }
 
       // Lazy insert with IntersectionObserver to avoid loading heavy images until visible
@@ -262,7 +298,7 @@ if (hamburger && mobileMenu) {
       const eagerCount = Math.min(4, uniqueSources.length);
       uniqueSources.forEach((name, index) => {
         const pngSrc = `public/memes/${name}`;
-        const webpSrc = pngSrc.replace(/\.(png|jpg|jpeg)$/i, '.webp');
+        const webpSrc = name.match(/\.(png|jpg|jpeg)$/i) ? pngSrc.replace(/\.(png|jpg|jpeg)$/i, '.webp') : '';
         const item = document.createElement('div');
         item.className = 'gallery__item';
         const img = document.createElement('img');
@@ -273,7 +309,7 @@ if (hamburger && mobileMenu) {
         img.draggable = false;
         img.alt = 'ZILLA meme';
         img.setAttribute('data-png', pngSrc);
-        img.setAttribute('data-webp', webpSrc);
+        if (webpSrc) img.setAttribute('data-webp', webpSrc);
         item.appendChild(img);
         gallery.appendChild(item);
         if (io && index >= eagerCount) {
@@ -281,6 +317,23 @@ if (hamburger && mobileMenu) {
         } else {
           setSource(img, pngSrc, webpSrc);
         }
+      });
+
+      // Enable download on click
+      gallery.addEventListener('click', (e) => {
+        const img = e.target && e.target.tagName === 'IMG' ? e.target : null;
+        if (!img) return;
+        // Prefer the data-png (original) so we don't try to download the placeholder/webp
+        let src = img.getAttribute('data-png') || img.currentSrc;
+        // If it's still the tiny placeholder, ignore click for now
+        if (src && src.startsWith('data:image/svg+xml')) return;
+        if (!src) return;
+        const a = document.createElement('a');
+        a.href = src;
+        a.download = src.split('/').pop();
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
       });
 
       // After population, compute step from first card width + gap

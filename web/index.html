@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>GODZILLA • Cardano Memecoin</title>
     <meta name="description" content="GODZILLA on Cardano. Buy guide, banner maker, and Zilla builder." />
+    <link rel="icon" href="public/ZILLAlogo.png" type="image/png" />
+    <link rel="apple-touch-icon" href="public/ZILLAlogo.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Chewy&family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
@@ -14,14 +16,14 @@
     <header class="nav">
       <div class="nav__left">
         <div class="logo">
-          <span class="logo__badge">Z</span>
+          <img class="logo__img" src="public/ZILLAlogo.png" alt="GODZILLA logo" />
           <span class="logo__text">GODZILLA</span>
         </div>
       </div>
       <nav class="nav__links">
         <a href="#guide">Guide</a>
         <a href="#nomics">Zilla-nomics</a>
-        <a href="generator/index.html">Generator</a>
+        <a href="generator/index.html" data-soon>Generator</a>
       </nav>
       <div class="nav__cta">
         <a class="btn btn--pill btn--green" href="#guide">Buy $ZILLA</a>
@@ -63,7 +65,7 @@
           <p class="lead">Community-powered chaos. Memes, layers, banners, and bite-sized fun.</p>
           <div class="hero__buttons">
             <a class="btn btn--pill btn--green" href="#guide">Get $ZILLA</a>
-            <a class="btn btn--pill btn--outline" href="generator/index.html">Open Generator</a>
+            <a class="btn btn--pill btn--outline" href="generator/index.html" data-soon>Open Generator</a>
           </div>
         </div>
         <div class="hero__art">
@@ -77,19 +79,19 @@
           <div class="steps">
             <article class="step">
               <h3>1. Get a Cardano wallet</h3>
-              <p>Install Lace, Eternl, Nami, or your favorite Cardano wallet and fund it with ADA.</p>
+              <p>Install Vespr, Eternl, Nami, or your favorite Cardano wallet and fund it with ADA.</p>
             </article>
             <article class="step">
               <h3>2. Connect to a DEX</h3>
-              <p>Open a Cardano DEX (Minswap, Sundae, etc.), connect your wallet.</p>
+              <p>Open a Cardano DEX (Minswap, Dex Hunter, etc.), connect your wallet.</p>
             </article>
             <article class="step">
               <h3>3. Swap ADA → $ZILLA</h3>
-              <p>Paste the official policy ID/asset fingerprint below, review, and swap.</p>
+              <p>Paste the official policy ID below, review, and swap.</p>
             </article>
           </div>
           <div class="policy">
-            <label for="policyId">Policy ID (placeholder):</label>
+            <label for="policyId">Policy ID:</label>
             <div class="policy__row">
               <input id="policyId" type="text" value="COMING-SOON" readonly />
               <button class="btn btn--pill btn--outline" id="copyPolicy">Copy</button>
@@ -106,6 +108,7 @@
             <div class="nomics__chart">
               <svg id="donutChart" viewBox="0 0 260 260" width="260" height="260" aria-label="Zilla-nomics chart">
                 <g transform="rotate(-90 130 130)"></g>
+                <image id="donutLogo" href="public/Tokenzilla.png" x="95" y="95" width="70" height="70" preserveAspectRatio="xMidYMid meet" />
               </svg>
             </div>
             <ul id="nomicsLegend" class="legend"></ul>
@@ -122,6 +125,7 @@
       
     </main>
 
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
     <footer class="footer">
       <div class="container">
         <div class="ticker" aria-hidden="true">
